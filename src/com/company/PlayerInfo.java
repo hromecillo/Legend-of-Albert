@@ -133,4 +133,9 @@ public class PlayerInfo {
     public void setPlayerXP(int playerXP) {
         this.playerXP = playerXP;
     }
+
+}
+
+interface Save {
+    public void writeToPlayerFile(String playerName);
 }

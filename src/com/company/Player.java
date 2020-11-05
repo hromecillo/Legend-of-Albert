@@ -2,9 +2,11 @@ package com.company;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Player extends PlayerInfo {
+public class Player extends PlayerInfo implements Save {
 
     Player(String playerName) {
         String playerFile = "Players\\" + playerName + ".txt";
@@ -30,6 +32,40 @@ public class Player extends PlayerInfo {
 
             characterReader.close();
         } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void writeToPlayerFile(String playerName) {
+        String playerFile = "Players\\" + playerName + ".txt";
+        File player = new File(playerFile);
+
+        try {
+            if (player.exists()) {
+                FileWriter saveWriter = new FileWriter(playerFile, false);
+
+                saveWriter.append(String.valueOf(getPlayerMaxHealth())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerHealth())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerMaxMana())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerMana())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerPhysicalAttack())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerMagicalAttack())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerPhysicalDefense())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerMagicalDefense())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerLevel())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerMaxXP())).append("\n");
+                saveWriter.append(String.valueOf(getPlayerXP())).append("\n");
+                saveWriter.append(getPlayerName()).append("\n");
+                saveWriter.append(getPlayerRace()).append("\n");
+                saveWriter.append(getPlayerBio()).append("\n");
+
+                saveWriter.close();
+            } else {
+                System.out.println("ERROR: Name already exists.");
+            }
+        } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }

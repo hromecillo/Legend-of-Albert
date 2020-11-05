@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class NewPlayer extends PlayerInfo {
+public class NewPlayer extends PlayerInfo implements Save {
 
     NewPlayer(String playerName, int playerRace, String playerBio,
               int playerMaxHealth, int playerMaxMana,
@@ -24,7 +24,6 @@ public class NewPlayer extends PlayerInfo {
         setPlayerMaxXP(100);
         setPlayerXP(0);
         setPlayerName(playerName);
-
         switch (playerRace) {
             case 1: {
                 setPlayerRace("Hyur");
@@ -39,35 +38,35 @@ public class NewPlayer extends PlayerInfo {
                 break;
             }
         }
-
         setPlayerBio(playerBio);
 
-        createCharacter();
+        writeToPlayerFile(getPlayerName());
     }
 
-    // Writes the starting data into the player's personal data file
-    void createCharacter() {
-        String playerFile = "Players\\" + getPlayerName() + ".txt";
-
+    // Writes the starting data into the player's new personal data file
+    @Override
+    public void writeToPlayerFile(String playerName) {
+        String playerFile = "Players\\" + playerName + ".txt";
         File character = new File(playerFile);
+
         try {
             if (character.createNewFile()) {
                 FileWriter characterWriter = new FileWriter(playerFile);
 
-                characterWriter.append(getPlayerMaxHealth() + "\n");
-                characterWriter.append(getPlayerHealth() + "\n");
-                characterWriter.append(getPlayerMaxMana() + "\n");
-                characterWriter.append(getPlayerMana() + "\n");
-                characterWriter.append(getPlayerPhysicalAttack() + "\n");
-                characterWriter.append(getPlayerMagicalAttack() + "\n");
-                characterWriter.append(getPlayerPhysicalDefense() + "\n");
-                characterWriter.append(getPlayerMagicalDefense() + "\n");
-                characterWriter.append(getPlayerLevel() + "\n");
-                characterWriter.append(getPlayerMaxXP() + "\n");
-                characterWriter.append(getPlayerXP() + "\n");
-                characterWriter.append(getPlayerName() + "\n");
-                characterWriter.append(getPlayerRace() + "\n");
-                characterWriter.append(getPlayerBio() + "\n");
+                characterWriter.append(String.valueOf(getPlayerMaxHealth())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerHealth())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerMaxMana())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerMana())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerPhysicalAttack())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerMagicalAttack())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerPhysicalDefense())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerMagicalDefense())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerLevel())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerMaxXP())).append("\n");
+                characterWriter.append(String.valueOf(getPlayerXP())).append("\n");
+                characterWriter.append(getPlayerName()).append("\n");
+                characterWriter.append(getPlayerRace()).append("\n");
+                characterWriter.append(getPlayerBio()).append("\n");
 
                 characterWriter.close();
             } else {
@@ -78,5 +77,4 @@ public class NewPlayer extends PlayerInfo {
             e.printStackTrace();
         }
     }
-
 }
